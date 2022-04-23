@@ -1,0 +1,103 @@
+h1{
+    color: #F9FAF8;
+    font-size: 48px;
+    font-weight: extra-bold;
+    padding: 0%;
+    margin: 0%;
+}
+
+p{
+    padding: 0%;
+    margin: 0%;
+}
+
+div{
+    padding: 0%;
+    margin: 0%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    color: antiquewhite;
+}
+
+.secondary-text{
+    font-size: 18px;
+    color: #E5E7EB;
+}
+
+.header-link {
+    padding-right: 5%;
+    font-size: 18px;
+    color: #E5E7EB;
+}
+
+.header-homepage-name {
+    margin-left: 15%;
+    font-size: 24px;
+    width: 50%;
+    font-weight: bold;
+    color: #F9FAF8;
+}
+
+.banner {
+    position: relative;
+    margin: 0;
+    padding: 2% 0% 5% 0%;
+    height: 50%;
+    background-color: #1F2937;
+}
+
+.container-row {
+    position: relative;
+    margin: 0% 0% 5% 0%;
+    padding-top: 0%;
+    display: flex;
+    width: 100%;
+}
+
+.container-column {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 35%;
+    margin-top: 2%;
+    margin-left: 15%;
+    gap: 5%;
+}
+
+.header-title-container {
+    display: grid;
+    padding-left: 5%;
+}
+
+.header-link-container {
+    position: relative;
+    margin-left: 19%;
+    display: inline-flexbox;
+    width:100%;
+    flex-direction: row;
+}
+
+.header-image {
+    position: relative;
+    margin: 2%;
+    margin-left: 5%;
+    padding: 8%;
+    width: 20%;
+    height: 40%;
+    background-color: grey;
+}
+
+.base-button{
+    position: relative;
+    padding: 2%;
+    width: 25%;
+    height: 15%;
+    border-style: none;
+    border-radius: 15%;
+    color: #F9FAF8;
+    text-align: center;
+    background-color: #3882F6;
+}
