@@ -47,13 +47,22 @@ body {
 }
 
 .call-to-action{
-    margin: 10% 10% 10% 10%;
-    padding: 5%;
+    margin: 5% 10%;
+    padding: 4% 10%;
+    gap: 38%;
     background-color: #3882F6;
     display: flex;
     flex-direction: row;
     border-style: none;
     border-radius: 1%;
+}
+
+.footer {
+    margin: 0%;
+    height: 20%;
+    padding: 2% 0%;
+    width: 100%;
+    background-color: #1F2937;
 }
 
 .secondary-text{
@@ -166,4 +175,17 @@ body {
     color: #F9FAF8;
     text-align: center;
     background-color: #3882F6;
+}
+
+.cta-button{
+    position: relative;
+    padding: 15% 50%;
+    width: max-content;
+    height: max-content;
+    border-style: solid;
+    border-radius: 8%;
+    border-color: #F9FAF8;
+    text-align: center;
+    color: #F9FAF8;
+    background-color: transparent;
 }
