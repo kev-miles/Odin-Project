@@ -28,9 +28,52 @@ body {
     color: antiquewhite;
 }
 
+.banner {
+    position: relative;
+    padding: 2% 4% 5% 0%;
+    height: 50%;
+    background-color: #1F2937;
+}
+
+.quote {
+    position: relative;
+    margin-top: 5%;
+    padding: 10% 20% 10% 20%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    flex-basis: 20%;
+    background-color: #E5E7EB;
+}
+
+.call-to-action{
+    margin: 10% 10% 10% 10%;
+    padding: 5%;
+    background-color: #3882F6;
+    display: flex;
+    flex-direction: row;
+    border-style: none;
+    border-radius: 1%;
+}
+
 .secondary-text{
     font-size: 18px;
     color: #E5E7EB;
+}
+
+.quote-text {
+    font-size: 30px;
+    font-style: italic;
+    font-weight: lighter;
+    color: #1F2937;
+    text-align: justify;
+}
+
+.quote-author {
+    font-size: 30px;
+    color: #1F2937;
+    font-weight: bold; 
+    text-align: right;
 }
 
 .header-link {
@@ -45,14 +88,6 @@ body {
     width: 50%;
     font-weight: bold;
     color: #F9FAF8;
-}
-
-.banner {
-    position: relative;
-    margin: 0;
-    padding: 2% 0% 5% 0%;
-    height: 50%;
-    background-color: #1F2937;
 }
 
 .container-row {
@@ -96,7 +131,7 @@ body {
 
 .header-link-container {
     position: relative;
-    margin-left: 19%;
+    margin-left: 16%;
     display: inline-flexbox;
     width:100%;
     flex-direction: row;
@@ -118,6 +153,7 @@ body {
     border-color: #3882F6;
     width: 100%;
     height: 150px;
+    margin-bottom: 5%;
 }
 
 .base-button{
