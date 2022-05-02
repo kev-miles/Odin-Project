@@ -1,0 +1,14 @@
+let container;
+
+function fillContainerGrid(grid_depth) {
+    container = document.getElementById("container");
+
+    container.style.setProperty("--grid-rows", grid_depth);
+    container.style.setProperty("--grid-cols", grid_depth);
+
+    for(let i=0; i<(grid_depth*grid_depth); i++){
+        let cell = document.createElement("div");
+        cell.innerText = (i + 1);
+        container.appendChild(cell).className = "grid-item";
+    }
+};
