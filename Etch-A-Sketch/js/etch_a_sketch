@@ -1,14 +1,59 @@
 let container;
+let button;
+let textbox;
+
+function initialize() {
+    container = document.getElementById("container");
+    textbox = document.getElementById("grid-size-textbox");
+    button = document.getElementById("generate-button");
+    button.onclick = generate;
+}
+
+function generate() {
+    var grid_depth = parseInt(textbox.value);
+    console.log("Generating with value... " + grid_depth);
+    if(!Number.isNaN(grid_depth))
+        fillContainerGrid(grid_depth);
+    else
+        fillContainerGrid(16);
+}
 
 function fillContainerGrid(grid_depth) {
-    container = document.getElementById("container");
+    console.log("Filling grid with depth... " + grid_depth);
+    var depth = (grid_depth > 100 ? 100 : grid_depth);
 
-    container.style.setProperty("--grid-rows", grid_depth);
-    container.style.setProperty("--grid-cols", grid_depth);
+    container.style.setProperty("--grid-rows", depth);
+    container.style.setProperty("--grid-cols", depth);
 
-    for(let i=0; i<(grid_depth*grid_depth); i++){
+    for(let i=0; i<(depth*depth); i++){
         let cell = document.createElement("div");
         cell.innerText = (i + 1);
         container.appendChild(cell).className = "grid-item";
+        linkEvents(cell);
+        adjustCellSize(cell, depth);
     }
 };
+
+function adjustCellSize(cell, depth) {
+    console.log("Adjusting Cell Size...")
+    var size = 1/depth;
+    cell.style.width = size + "em";
+    cell.style.height = size + "em";
+}
+
+function linkEvents(cell)
+{
+    var color = function colorCell() {
+        console.log("Colored Cell");
+        cell.style.backgroundColor = "black";
+    }
+    
+    var erase = function eraseCell() {
+        console.log("Erased Cell");
+        cell.style.backgroundColor = "white";
+    }
+
+    cell.onmouseenter = color;
+    cell.ondragover = erase;
+}
+

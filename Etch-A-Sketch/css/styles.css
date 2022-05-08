@@ -6,17 +6,34 @@ body{
     --grid-cols: 1;
     --grid-rows: 1;
   }
+
+.button-container {
+    text-align: center;
+}
+
+#generate-button {
+    background-color: orange;
+}
+
+#grid-size-textbox {
+
+}
   
 #container {
+    text-align: center;
     display: grid;
-    margin: 5%;
-    grid-gap: 0.5em;
+    width: 40%;
+    margin: 1% 28%;
+    grid-gap: 0.05em;
     grid-template-rows: repeat(var(--grid-rows), 1fr);
     grid-template-columns: repeat(var(--grid-cols), 1fr);
 }
   
 .grid-item {
     padding: 1em;
+    width: 0.25em;
+    height: 0.25em;
+    background-color: white;
     border: 1px solid #ddd;
     text-align: center;
 }
