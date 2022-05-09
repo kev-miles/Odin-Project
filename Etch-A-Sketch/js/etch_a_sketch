@@ -6,16 +6,30 @@ function initialize() {
     container = document.getElementById("container");
     textbox = document.getElementById("grid-size-textbox");
     button = document.getElementById("generate-button");
-    button.onclick = generate;
+    button.onclick = reloadGrid;
+    fillContainerGrid(16);
 }
 
-function generate() {
+function reloadGrid() {
+    clearGrid();
+    generateGrid();
+}
+
+function generateGrid() {
     var grid_depth = parseInt(textbox.value);
     console.log("Generating with value... " + grid_depth);
     if(!Number.isNaN(grid_depth))
         fillContainerGrid(grid_depth);
     else
         fillContainerGrid(16);
+}
+
+function clearGrid() {
+    var child = container.lastElementChild; 
+    while (child) {
+        container.removeChild(child);
+        child = container.lastElementChild;
+    }
 }
 
 function fillContainerGrid(grid_depth) {
@@ -36,9 +50,7 @@ function fillContainerGrid(grid_depth) {
 
 function adjustCellSize(cell, depth) {
     console.log("Adjusting Cell Size...")
-    var size = 1/depth;
-    cell.style.width = size + "em";
-    cell.style.height = size + "em";
+    //Todo: resizing
 }
 
 function linkEvents(cell)
