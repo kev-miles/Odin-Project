@@ -1,10 +1,10 @@
 body{
-    background-color: black;
+    background-color: gainsboro;
 }
 
 :root {
-    --grid-cols: 0.05em;
-    --grid-rows: 0.05em;
+    --grid-cols: 1fr;
+    --grid-rows: 1fr;
   }
 
 .button-container {
@@ -15,6 +15,23 @@ body{
     background-color: orange;
 }
 
+.mode-buttons{
+    background-color: grey;
+    color: white;
+}
+
+#color {
+    
+}
+
+#erase {
+    
+}
+
+#rainbow {
+    
+}
+
 #grid-size-textbox {
 
 }
@@ -22,10 +39,11 @@ body{
 #container {
     text-align: center;
     display: grid;
-    width: 40%;
-    height: 40%;
-    margin: 1% 28%;
-    grid-gap: 0.05em;
+    border-radius: 5%;
+    width: 500px;
+    height: 500px;
+    margin: auto;
+    gap: 0.05em;
     grid-template-rows: repeat(var(--grid-rows), 1fr);
     grid-template-columns: repeat(var(--grid-cols), 1fr);
 }
@@ -36,8 +54,8 @@ body{
   }
   
 .grid-item {
-    padding: 1em;
     background-color: white;
-    border: 1px solid #ddd;
     text-align: center;
+    min-height: 5px;
+    min-width: 5px;
 }

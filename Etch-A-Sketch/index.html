@@ -10,16 +10,32 @@
 </head>
 <body></body>
     <div class="button-container">
-        <p>Grid Size </p>
+        <p>Grid Size (10 - 64)</p>
         <input id="grid-size-textbox" type="number" name="someid" />
         <br>
         <button id="generate-button" type="button">Generate</button>
     </div>   
     <br>
-    <div id="container">
-        <script type="text/javascript">
-            initialize();
-         </script>
+    <div>
+        <div style="display: flexbox; text-align: center;">
+            <button class="mode-buttons" id="color">Color</button>
+            <button class="mode-buttons" id="rainbow">Rainbow</button>
+            <button class="mode-buttons" id="erase">Eraser</button>
+        </div>
+        <br>
+        <div id="container">
+            <script type="text/javascript">
+                initialize();
+             </script>
+        </div>
     </div>
 </body>
+<footer>
+    <p style="text-align: center;">
+        Made by kev-miles - 
+        <script>
+          document.write(new Date().getFullYear())
+        </script>
+      </p>
+</footer>
 </html>

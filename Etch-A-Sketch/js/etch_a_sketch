@@ -1,27 +1,37 @@
 let container;
-let button;
+let generateButton;
+let colorButton;
+let eraseButton;
+let rainbowButton;
 let textbox;
+
+let minGridDepth = 10;
+let maxGridDepth = 64;
+
+let isColoring = true;
+let isRainbow = false;
 
 function initialize() {
     container = document.getElementById("container");
     textbox = document.getElementById("grid-size-textbox");
-    button = document.getElementById("generate-button");
-    button.onclick = reloadGrid;
+    generateButton = document.getElementById("generate-button");
+    colorButton = document.getElementById("color");
+    eraseButton = document.getElementById("erase");
+    rainbowButton = document.getElementById("rainbow");
+
+    generateButton.onclick = reloadGrid;
+    eraseButton.onclick = enableEraser;
+    rainbowButton.onclick = enableRainbow;
+    colorButton.onclick = enableDrawing;
+
     fillContainerGrid(16);
+    enableDrawing();
 }
 
 function reloadGrid() {
     clearGrid();
     generateGrid();
-}
-
-function generateGrid() {
-    var grid_depth = parseInt(textbox.value);
-    console.log("Generating with value... " + grid_depth);
-    if(!Number.isNaN(grid_depth))
-        fillContainerGrid(grid_depth);
-    else
-        fillContainerGrid(16);
+    clearTextBox();
 }
 
 function clearGrid() {
@@ -32,40 +42,92 @@ function clearGrid() {
     }
 }
 
+function generateGrid() {
+    var grid_depth = parseInt(textbox.value);
+    if(!Number.isNaN(grid_depth))
+        fillContainerGrid(grid_depth);
+    else
+        fillContainerGrid(16);
+}
+
+function clearTextBox() {
+    textbox.value = null;
+}
+
 function fillContainerGrid(grid_depth) {
     console.log("Filling grid with depth... " + grid_depth);
-    var depth = (grid_depth > 100 ? 100 : grid_depth);
+
+    var depth = verifyGridDepth(grid_depth);
 
     container.style.setProperty("--grid-rows", depth);
     container.style.setProperty("--grid-cols", depth);
 
     for(let i=0; i<(depth*depth); i++){
         let cell = document.createElement("div");
-        cell.innerText = (i + 1);
         container.appendChild(cell).className = "grid-item";
         linkEvents(cell);
-        adjustCellSize(cell, depth);
     }
 };
 
-function adjustCellSize(cell, depth) {
-    console.log("Adjusting Cell Size...")
-    //Todo: resizing
+function verifyGridDepth(depth)
+{
+    if(depth < minGridDepth)
+    {
+        return verifyGridDepth(Number(window.prompt("Invalid Value, please input a number between 10 and 64")));
+    }
+    else if(depth > maxGridDepth)
+    {
+        return verifyGridDepth(Number(window.prompt("Invalid Value, please input a number between 10 and 64")));
+    }
+
+    return depth;
+}
+
+function showInvalidValuePrompt() {
+    prompt("Invalid Value, adjusting grid");
 }
 
 function linkEvents(cell)
 {
-    var color = function colorCell() {
-        console.log("Colored Cell");
-        cell.style.backgroundColor = "black";
-    }
-    
-    var erase = function eraseCell() {
-        console.log("Erased Cell");
-        cell.style.backgroundColor = "white";
+    var execute = function colorCell() {
+        
+        if(isColoring)
+        {
+            console.log("Colored Cell / IsRainbow: " + isRainbow);
+            (isRainbow
+                ? cell.style.backgroundColor = "#" + Math.floor(Math.random()*16777215).toString(16)
+                : cell.style.backgroundColor = "black");
+        }
+        else
+        {
+            console.log("Erased Cell");
+            cell.style.backgroundColor = "white";
+        }
     }
 
-    cell.onmouseenter = color;
-    cell.ondragover = erase;
+    cell.onmouseover = execute;
+}
+
+function enableDrawing(){
+    isColoring = true;
+    isRainbow = false;
+    rainbowButton.style.backgroundColor = "grey";
+    eraseButton.style.backgroundColor = "grey";
+    colorButton.style.backgroundColor = "green";     
+}
+
+function enableEraser(){
+    isColoring = false;
+    rainbowButton.style.backgroundColor = "grey";
+    eraseButton.style.backgroundColor = "green";
+    colorButton.style.backgroundColor = "grey";
+}
+
+function enableRainbow(){
+    isColoring = true;
+    isRainbow = true;
+    rainbowButton.style.backgroundColor = "green";
+    eraseButton.style.backgroundColor = "grey";
+    colorButton.style.backgroundColor = "grey";
 }
 
