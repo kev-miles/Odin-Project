@@ -2,51 +2,45 @@
     text-align: center;
     margin: 5% auto;
     width: 480px;
-    height: 640px;
-}
-
-.button-row {
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
-    width: 100%;
+    height: fit-content;
 }
 
 .reg-button {
     background-color: slategray;
     color: white;
-    width: 50px;
-    height: 50px;
+    width: 100%;
+    height: 3rem;
 }
 
 .side-button {
     background-color: brown;
     color: white;
-    width: 50px;
-    height: 50px;
+    width: 100%;
+    height: 3rem;
 }
 
 .top-button {
     background-color: burlywood;
     color: white;
-    width: 50px;
-    height: 50px;
+    width: 100%;
+    height: 3rem;
 }
 
 #screen {
     background-color: black;
     color: green;
-    padding: 1%;
     text-align: right;
     width: 100%;
     height: 50px;
 }
 
 #button-grid {
+    text-align: center;
     display: grid;
-    grid-template-columns: auto;
-    grid-auto-rows: auto;
+    border-radius: 5%;
     gap: 0.05em;
+    grid-template-rows: repeat(var(--grid-rows), 1fr);
+    grid-template-columns: repeat(var(--grid-cols), 1fr);
 }
 
 #button-grid-bottom {
