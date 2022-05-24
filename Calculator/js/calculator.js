@@ -7,21 +7,28 @@ let buttonsPerRow = 4;
 
 let buttonIndexTable = ["AC", "+/-", "%", "/", "7", "8", "9", "*", "4", "5", "6", "-",
 "1","2","3","+","0",".","<","="];
+let operators = ["+","-","/","*"];
 
 var isFirstValue = true;
 var firstScreenValue = "0";
-var secondScreenValue = "0";
+var secondScreenValue = "";
 
 function initialize() {
-    screen = document.getElementById("screen");
+    getDocumentElements();
     generateButtons();
     clearAll();
+}
+
+function getDocumentElements() {
+    screen = document.getElementById("screen");
+    buttonGrid = document.getElementById("button-grid");
+    buttonGridBottom = document.getElementById("button-grid-bottom");
 }
 
 function clearAll() {
     isFirstValue = true;
     firstScreenValue = "0";
-    secondScreenValue = "0";
+    secondScreenValue = "";
     displayScreenValue();
 }
 
@@ -30,39 +37,54 @@ function displayScreenValue() {
 }
 
 function generateButtons(){
-    buttonGrid = document.getElementById("button-grid");
-    buttonGridBottom = document.getElementById("button-grid-bottom");
-
     buttonGrid.style.setProperty("--grid-rows", totalRows);
     buttonGrid.style.setProperty("--grid-cols", buttonsPerRow);
 
     for(let i=0; i<(totalRows*buttonsPerRow); i++){
         var button = document.createElement("button");
-        button.textContent = assignButtonText(i);
+        assignButtonText(button, i);
         assignButtonEvents(button, i)
-        buttonGrid.appendChild(button).className = assignButtonClass(i+1);
+        assignButtonClass(button, i+1);
+        buttonGrid.appendChild(button);
     }
 }
 
-function assignButtonText(buttonIndex)
+function assignButtonText(button, buttonIndex)
 {
-    return buttonIndexTable[buttonIndex];
+    button.textContent = buttonIndexTable[buttonIndex];
 }
 
-function assignButtonClass(buttonIndex)
+function assignButtonClass(button, buttonIndex)
 {
-    return (buttonIndex <= 3 
-        ? "top-button" 
-        : (buttonIndex % 4 === 0) 
-            ? "side-button" 
-            : "reg-button");
+    (buttonIndex <= 3 
+    ? button.className = "top-button" 
+    : (buttonIndex % 4 === 0) 
+        ? button.className = "side-button" 
+        : button.className = "reg-button");
 }
 
 function assignButtonEvents(button, buttonIndex)
 {
     if(buttonIsNumber(buttonIndex))
     {
-        button.onclick = concatenateButtonValueToScreenValue(button.textContent);
+        button.onclick = function(){
+            concatenateButtonValueToScreenValue(button.textContent)
+            displayScreenValue(); 
+        };
+    }
+    else if(buttonIndexTable[buttonIndex] === "AC")
+    {
+        button.onclick = function(){
+            clearAll();
+            displayScreenValue();
+        }
+    }
+    else if(buttonIndexTable[buttonIndex] === "<")
+    {
+        button.onclick = function(){
+            clearLast();
+            displayScreenValue();
+        }
     }
 }
 
@@ -73,12 +95,18 @@ function buttonIsNumber(buttonIndex)
 
 function concatenateButtonValueToScreenValue(valueToConcatenate)
 {
-    console.log("concatenating..." + valueToConcatenate);
+    if(valueToConcatenate === "0" && firstScreenValue === "0")
+        return;
+    
+    if(firstScreenValue === "0")
+        firstScreenValue = "";
 
-    if(isFirstValue)
-        firstScreenValue = firstScreenValue + valueToConcatenate;
-    else
-        secondScreenValue = secondScreenValue + valueToConcatenate;
+    (isFirstValue 
+        ? firstScreenValue = firstScreenValue + valueToConcatenate
+        : secondScreenValue = secondScreenValue + valueToConcatenate);
+}
 
-    displayScreenValue();
+function clearLast(){
+    console.log("deleted last value");
+    //TODO: Implement this!
 }
