@@ -55,8 +55,6 @@ function clearTextBox() {
 }
 
 function fillContainerGrid(grid_depth) {
-    console.log("Filling grid with depth... " + grid_depth);
-
     var depth = verifyGridDepth(grid_depth);
 
     container.style.setProperty("--grid-rows", depth);
@@ -89,18 +87,15 @@ function showInvalidValuePrompt() {
 
 function linkEvents(cell)
 {
-    var execute = function colorCell() {
-        
+    var execute = function colorCell() {      
         if(isColoring)
         {
-            console.log("Colored Cell / IsRainbow: " + isRainbow);
             (isRainbow
                 ? cell.style.backgroundColor = "#" + Math.floor(Math.random()*16777215).toString(16)
                 : cell.style.backgroundColor = "black");
         }
         else
         {
-            console.log("Erased Cell");
             cell.style.backgroundColor = "white";
         }
     }
