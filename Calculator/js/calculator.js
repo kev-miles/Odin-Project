@@ -7,11 +7,23 @@ let buttonsPerRow = 4;
 
 let buttonIndexTable = ["AC", "+/-", "%", "/", "7", "8", "9", "*", "4", "5", "6", "-",
 "1","2","3","+","0",".","<","="];
-let operators = ["+","-","/","*"];
 
-var isFirstValue = true;
-var firstScreenValue = "0";
-var secondScreenValue = "";
+
+let isFirstValue = true;
+let firstScreenValue = "0";
+let secondScreenValue = "";
+let operationToExecute = -1;
+
+let funcDirectory = {
+    "AC": function(){clearAll(); displayScreenValue();},
+    "<": function(){ clearLast(); displayScreenValue();},
+    ".": function(){ isFirstValue? firstScreenValue + "." : secondScreenValue + "."; displayScreenValue();},
+    "+": function(){ isFirstValue = false; operationToExecute = 0; displayScreenValue();},
+    "*": function(){ isFirstValue = false; operationToExecute = 1; displayScreenValue();},
+    "-": function(){ isFirstValue = false; operationToExecute = 2; displayScreenValue();},
+    "/": function(){ isFirstValue = false; operationToExecute = 3; displayScreenValue();},
+    "=": function(){ operate();}
+  };
 
 function initialize() {
     getDocumentElements();
@@ -41,7 +53,7 @@ function generateButtons(){
     buttonGrid.style.setProperty("--grid-cols", buttonsPerRow);
 
     for(let i=0; i<(totalRows*buttonsPerRow); i++){
-        var button = document.createElement("button");
+        let button = document.createElement("button");
         assignButtonText(button, i);
         assignButtonEvents(button, i)
         assignButtonClass(button, i+1);
@@ -72,19 +84,9 @@ function assignButtonEvents(button, buttonIndex)
             displayScreenValue(); 
         };
     }
-    else if(buttonIndexTable[buttonIndex] === "AC")
+    else
     {
-        button.onclick = function(){
-            clearAll();
-            displayScreenValue();
-        }
-    }
-    else if(buttonIndexTable[buttonIndex] === "<")
-    {
-        button.onclick = function(){
-            clearLast();
-            displayScreenValue();
-        }
+        button.onclick = funcDirectory[buttonIndexTable[buttonIndex]];
     }
 }
 
@@ -107,6 +109,51 @@ function concatenateButtonValueToScreenValue(valueToConcatenate)
 }
 
 function clearLast(){
-    console.log("deleted last value");
-    //TODO: Implement this!
+    isFirstValue 
+    ? firstScreenValue = firstScreenValue.substring(0, firstScreenValue.length-1)
+    : secondScreenValue = secondScreenValue.substring(0,secondScreenValue.length-1);
+
+    if(firstScreenValue === "")
+        firstScreenValue = "0";
+    
+    if(!isFirstValue && secondScreenValue === "")
+        secondScreenValue = "0";
+}
+
+function operate()
+{
+    switch(operationToExecute) {
+        case 0:
+            displayOperationResultOnScreen(add());
+          break;
+        case 1:
+            displayOperationResultOnScreen(mul());
+            break;
+        case 2:
+            displayOperationResultOnScreen(sub());
+            break;
+        case 3:
+            displayOperationResultOnScreen(div());
+            break;
+      }
+}
+
+function displayOperationResultOnScreen(result) {
+    isFirstValue = true;
+    firstScreenValue = ""+result;
+    secondScreenValue = "";
+    displayScreenValue();
+}
+
+function add(){
+    return Number(firstScreenValue) + Number(secondScreenValue);
+}
+function mul(){
+    return Number(firstScreenValue) * Number(secondScreenValue);
+}
+function sub() {
+    return Number(firstScreenValue) - Number(secondScreenValue);
+}
+function div() {
+    return Number(firstScreenValue) / Number(secondScreenValue);
 }
