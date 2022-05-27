@@ -4,10 +4,10 @@ let buttonGridBottom;
 
 let totalRows = 5;
 let buttonsPerRow = 4;
+let screenMaxChars = 12;
 
 let buttonIndexTable = ["AC", "+/-", "%", "/", "7", "8", "9", "*", "4", "5", "6", "-",
 "1","2","3","+","0",".","<","="];
-
 
 let isFirstValue = true;
 let firstScreenValue = "0";
@@ -17,12 +17,17 @@ let operationToExecute = -1;
 let funcDirectory = {
     "AC": function(){clearAll(); displayScreenValue();},
     "<": function(){ clearLast(); displayScreenValue();},
-    ".": function(){ isFirstValue? firstScreenValue + "." : secondScreenValue + "."; displayScreenValue();},
+    ".": function(){ makeDecimal(); displayScreenValue();},
     "+": function(){ isFirstValue = false; operationToExecute = 0; displayScreenValue();},
     "*": function(){ isFirstValue = false; operationToExecute = 1; displayScreenValue();},
     "-": function(){ isFirstValue = false; operationToExecute = 2; displayScreenValue();},
     "/": function(){ isFirstValue = false; operationToExecute = 3; displayScreenValue();},
-    "=": function(){ operate();}
+    "=": function(){ operate();},
+    "+/-": function() { alterInputSign(); displayScreenValue();},
+    " ": function(){clearAll(); displayScreenValue();},
+    "r": function() { location.reload();},
+    "Enter": function(){ operate();},
+    "Backspace": function(){ clearLast(); displayScreenValue();}
   };
 
 function initialize() {
@@ -59,6 +64,8 @@ function generateButtons(){
         assignButtonClass(button, i+1);
         buttonGrid.appendChild(button);
     }
+
+    bindKeyboardEvents();
 }
 
 function assignButtonText(button, buttonIndex)
@@ -97,7 +104,9 @@ function buttonIsNumber(buttonIndex)
 
 function concatenateButtonValueToScreenValue(valueToConcatenate)
 {
-    if(valueToConcatenate === "0" && firstScreenValue === "0")
+    if(valueToConcatenate === "0" && firstScreenValue === "0" 
+        || firstScreenValue.length > screenMaxChars && isFirstValue
+        || secondScreenValue.length > screenMaxChars)
         return;
     
     if(firstScreenValue === "0")
@@ -135,14 +144,35 @@ function operate()
         case 3:
             displayOperationResultOnScreen(div());
             break;
+        default:
+            displayOperationResultOnScreen(Number(firstScreenValue));
       }
+
+    operationToExecute = -1;
 }
 
 function displayOperationResultOnScreen(result) {
     isFirstValue = true;
-    firstScreenValue = ""+result;
+    formatResult(result);
     secondScreenValue = "";
     displayScreenValue();
+}
+
+function formatResult(result) {
+
+    let formatted = result;
+
+    if(result > 100 || result < -100)
+        formatted = result.toFixed(2);
+
+    firstScreenValue = ""+ result;
+
+    if(firstScreenValue.length-1 > screenMaxChars) {
+        let index = firstScreenValue.indexOf(".");
+        index > 0 
+        ? firstScreenValue = firstScreenValue.substring(0, screenMaxChars)
+        : firstScreenValue = "Err - Max Num!";
+    }
 }
 
 function add(){
@@ -156,4 +186,35 @@ function sub() {
 }
 function div() {
     return Number(firstScreenValue) / Number(secondScreenValue);
+}
+
+function alterInputSign() {
+    isFirstValue ? firstScreenValue = (Number(firstScreenValue)*-1).toString() :  secondScreenValue = (Number(secondScreenValue)*-1).toString();
+}
+
+function makeDecimal() {
+    if(firstScreenValue.indexOf(".") > 0)
+        return;
+ 
+    isFirstValue ? firstScreenValue += "." : secondScreenValue += ".";
+}
+
+function bindKeyboardEvents() {
+    window.addEventListener("keydown", function (event) {
+        if (event.defaultPrevented) {
+          return;
+        }
+
+        console.log("key pressed_" + event.key + ".");
+
+        if(event.key != " " && !isNaN(Number(event.key)))
+        {
+            concatenateButtonValueToScreenValue(event.key);
+            displayScreenValue();
+        }
+        else if(event.key in funcDirectory)
+            funcDirectory[event.key]();
+        else
+            event.preventDefault();
+      }, true);
 }
